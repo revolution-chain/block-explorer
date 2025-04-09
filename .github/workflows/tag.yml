@@ -1,9 +1,7 @@
 name: buid-on-tag
-
 on:
   workflow_dispatch:
   push:
-    branches: [ main, master ]
     tags:
       - "v*.*.*"
   pull_request:
@@ -68,18 +66,13 @@ jobs:
         with:
           images: ${{ secrets.DOCKERHUB_USERNAME }}/block-explorer-${{ matrix.service }}
           tags: |
-            type=ref,event=branch
             type=semver,pattern={{version}}
-            type=sha,format=short
-            type=raw,value=latest,enable={{is_default_branch}}
-
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ./packages/${{ matrix.service }}/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/block-explorer-${{ matrix.service }}:${{ steps.meta.outputs.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

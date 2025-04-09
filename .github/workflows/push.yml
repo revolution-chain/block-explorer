@@ -1,9 +1,11 @@
-name: buid-on-push
+name: build-on-push
+
 on:
+  workflow_dispatch:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
 
 env:
   REGISTRY: docker.io
@@ -64,7 +66,6 @@ jobs:
             type=ref,event=branch
             type=sha,format=short
             type=raw,value=latest,enable={{is_default_branch}}
-
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
