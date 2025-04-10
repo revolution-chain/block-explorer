@@ -1,24 +1,9 @@
 {
   "networks": [
     {
-      "apiUrl": "http://localhost:3020",
-      "bridgeUrl": "http://localhost:3000/bridge",
-      "hostnames": [
-        "localhost"
-      ],
-      "icon": "/images/icons/zksync-arrows.svg",
-      "l2ChainId": 270,
-      "l2NetworkName": "Local",
-      "maintenance": false,
-      "name": "local",
-      "published": true,
-      "rpcUrl": "http://localhost:3050",
-      "baseTokenAddress": "0x000000000000000000000000000000000000800A"
-    },
-    {
-      "apiUrl": "http://127.0.0.1:3020",
+      "apiUrl": "http://dev.revoscan.io:3020",
       "verificationApiUrl": "http://revolution1.mcnierney.com:3070",
-      "bridgeUrl": "http://66.228.43.83:3000/bridge/?network=sepolia",
+      "bridgeUrl": "http://dev.revoscan.io:3000/bridge/?network=sepolia",
       "hostnames": [
       ],
       "icon": "/images/icons/zksync-arrows.svg",
