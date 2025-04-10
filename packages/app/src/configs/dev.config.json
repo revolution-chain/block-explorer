@@ -16,19 +16,21 @@
       "baseTokenAddress": "0x000000000000000000000000000000000000800A"
     },
     {
-      "apiUrl": "https://block-explorer-api.sepolia.zksync.dev",
-      "verificationApiUrl": "https://explorer.sepolia.era.zksync.dev",
-      "bridgeUrl": "https://portal.zksync.io/bridge/?network=sepolia",
-      "hostnames": [],
+      "apiUrl": "http://127.0.0.1:3020",
+      "verificationApiUrl": "http://revolution1.mcnierney.com:3070",
+      "bridgeUrl": "http://66.228.43.83:3000/bridge/?network=sepolia",
+      "hostnames": [
+        "dev.revoscan.io"
+      ],
       "icon": "/images/icons/zksync-arrows.svg",
       "l1ExplorerUrl": "https://sepolia.etherscan.io",
-      "l2ChainId": 300,
+      "l2ChainId": 73682,
       "l2NetworkName": "Revolution Sepolia Testnet",
       "maintenance": false,
-      "name": "sepolia",
+      "name": "revolution",
       "published": true,
-      "rpcUrl": "https://sepolia.era.zksync.dev",
-      "baseTokenAddress": "0x000000000000000000000000000000000000800a"
+      "rpcUrl": "http://revolution1.mcnierney.com:3252",
+      "baseTokenAddress": "0x8DFFff8A53dd2b2DF1401bB8E0C035e5C924C956"
     },
     {
       "apiUrl": "https://block-explorer-api.stage.zksync.dev",
@@ -56,7 +58,7 @@
       "icon": "/images/icons/zksync-arrows.svg",
       "l1ExplorerUrl": "https://etherscan.io",
       "l2ChainId": 324,
-      "l2NetworkName": "Revolution Mainnet",
+      "l2NetworkName": "ZkSync Era Mainnet",
       "maintenance": false,
       "name": "mainnet",
       "published": true,
