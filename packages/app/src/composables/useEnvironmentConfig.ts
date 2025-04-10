@@ -17,6 +17,8 @@ export async function loadEnvironmentConfig(runtimeConfig: RuntimeConfig): Promi
     return;
   }
 
+  console.log(runtimeConfig.appEnvironment);
+
   let envConfig: EnvironmentConfig;
   if (runtimeConfig.appEnvironment === "default") {
     try {
