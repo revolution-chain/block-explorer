@@ -1,7 +1,7 @@
 {
   "networks": [
     {
-      "apiUrl": "http://dev.revoscan.io",
+      "apiUrl": "http://api-dev.revoscan.io",
       "verificationApiUrl": "http://revolution1.mcnierney.com:3070",
       "bridgeUrl": "http://dev.revoscan.io:3000/bridge/?network=sepolia",
       "hostnames": [
@@ -9,7 +9,7 @@
       "icon": "/images/icons/zksync-arrows.svg",
       "l1ExplorerUrl": "https://sepolia.etherscan.io",
       "l2ChainId": 73682,
-      "l2NetworkName": "Revolution Sepolia Testnet",
+      "l2NetworkName": "Revolution Testnet",
       "maintenance": false,
       "name": "revolution",
       "published": true,
