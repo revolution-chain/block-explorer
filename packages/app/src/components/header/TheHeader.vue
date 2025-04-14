@@ -4,8 +4,8 @@
       <div class="header-container">
         <div class="logo-container">
           <router-link :to="{ name: 'home' }">
-            <span class="sr-only">ZKsync</span>
-            <zk-sync-era />
+            <span class="sr-only">Revolution</span>
+            <revolution />
           </router-link>
         </div>
         <div class="burger-button-container">
@@ -68,7 +68,7 @@
           <div class="mobile-header-container">
             <div class="mobile-popover-navigation">
               <div class="popover-zksync-logo">
-                <zk-sync class="logo" />
+                <revo class="logo" />
               </div>
               <div class="-mr-2">
                 <PopoverButton class="close-popover-button">
@@ -146,6 +146,8 @@ import HeroArrows from "@/components/icons/HeroArrows.vue";
 import TwitterIcon from "@/components/icons/TwitterIcon.vue";
 import ZkSync from "@/components/icons/ZkSync.vue";
 import ZkSyncEra from "@/components/icons/ZkSyncEra.vue";
+import Revo from "@/components/icons/Revo.vue";
+import Revolution from "@/components/icons/Revolution.vue";
 
 import useContext from "@/composables/useContext";
 import useLocalization from "@/composables/useLocalization";
