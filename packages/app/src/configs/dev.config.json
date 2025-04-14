@@ -6,7 +6,7 @@
       "bridgeUrl": "http://dev.revoscan.io:3000/bridge/?network=sepolia",
       "hostnames": [
       ],
-      "icon": "/images/icons/zksync-arrows.svg",
+      "icon": "/images/icons/revo.svg",
       "l1ExplorerUrl": "https://sepolia.etherscan.io",
       "l2ChainId": 73682,
       "l2NetworkName": "Revolution Testnet",
