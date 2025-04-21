@@ -8,13 +8,13 @@
       ],
       "icon": "/images/icons/revo.svg",
       "l1ExplorerUrl": "https://sepolia.etherscan.io",
-      "l2ChainId": 73682,
+      "l2ChainId": 73683,
       "l2NetworkName": "Revolution Testnet",
       "maintenance": false,
       "name": "revolution",
       "published": true,
       "rpcUrl": "http://revolution1.mcnierney.com:3252",
-      "baseTokenAddress": "0x8DFFff8A53dd2b2DF1401bB8E0C035e5C924C956"
+      "baseTokenAddress": "0x81a2638B82313bDF8A3032C53053e29d656c3Fee"
     },
     {
       "apiUrl": "https://block-explorer-api.stage.zksync.dev",
