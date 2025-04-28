@@ -1,0 +1,89 @@
+## 310-geth-configmap.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: block-explorer-config
+  labels:
+    app: block-explorer
+data:
+  LOG_LEVEL: verbose
+  BATCHES_PROCESSING_POLLING_INTERVAL: "1000"
+  API_PORT: "3020"
+  WORKER_PORT: "3001"
+  DATA_FETCHER_PORT: "3040"
+  METRICS_PORT: "3005"
+  BLOCKCHAIN_RPC_URL: dev.revolutionchain.io
+  DATA_FETCHER_URL: http://127.0.0.1:3040
+  ## This currently doesn't work. The config file comes from image building stage
+  network.conf: |-
+    {
+      "networks": [
+        {
+          "apiUrl": "http://localhost:3020",
+          "bridgeUrl": "http://localhost:3000/bridge",
+          "hostnames": [
+            "localhost"
+          ],
+          "icon": "/images/icons/zksync-arrows.svg",
+          "l2ChainId": 270,
+          "l2NetworkName": "Local",
+          "maintenance": false,
+          "name": "local",
+          "published": true,
+          "rpcUrl": "http://localhost:3050",
+          "baseTokenAddress": "0x000000000000000000000000000000000000800A"
+        },
+        {
+          "apiUrl": "http://127.0.0.1:3020",
+          "verificationApiUrl": "http://revolution1.mcnierney.com:3070",
+          "bridgeUrl": "http://66.228.43.83:3000/bridge/?network=sepolia",
+          "hostnames": [
+            "dev.revoscan.io"
+          ],
+          "icon": "/images/icons/zksync-arrows.svg",
+          "l1ExplorerUrl": "https://sepolia.etherscan.io",
+          "l2ChainId": 73682,
+          "l2NetworkName": "Revolution Sepolia Testnet",
+          "maintenance": false,
+          "name": "revolution",
+          "published": true,
+          "rpcUrl": "dev.revolutionchain.io",
+          "baseTokenAddress": "0x8DFFff8A53dd2b2DF1401bB8E0C035e5C924C956"
+        },
+        {
+          "apiUrl": "https://block-explorer-api.stage.zksync.dev",
+          "verificationApiUrl": "https://z2-dev-api-explorer.zksync.dev",
+          "hostnames": [
+            "https://goerli-beta.staging-scan-v2.zksync.dev"
+          ],
+          "icon": "/images/icons/zksync-arrows.svg",
+          "l1ExplorerUrl": "https://goerli.etherscan.io",
+          "l2ChainId": 270,
+          "l2NetworkName": "Goerli (Stage2)",
+          "maintenance": false,
+          "name": "goerli-beta",
+          "published": true,
+          "rpcUrl": "https://z2-dev-api.zksync.dev",
+          "baseTokenAddress": "0x000000000000000000000000000000000000800a"
+        },
+        {
+          "apiUrl": "https://block-explorer-api.mainnet.zksync.io",
+          "verificationApiUrl": "https://zksync2-mainnet-explorer.zksync.io",
+          "bridgeUrl": "https://portal.zksync.io/bridge/?network=mainnet",
+          "hostnames": [
+            "https://staging-scan-v2.zksync.dev"
+          ],
+          "icon": "/images/icons/zksync-arrows.svg",
+          "l1ExplorerUrl": "https://etherscan.io",
+          "l2ChainId": 324,
+          "l2NetworkName": "ZkSync Era Mainnet",
+          "maintenance": false,
+          "name": "mainnet",
+          "published": true,
+          "rpcUrl": "https://mainnet.era.zksync.io",
+          "tokensMinLiquidity": 0,
+          "zkTokenAddress": "0x5A7d6b2F92C77FAD6CCaBd7EE0624E64907Eaf3E",
+          "baseTokenAddress": "0x000000000000000000000000000000000000800a"
+        }
+      ]
+    }

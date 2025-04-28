@@ -13,7 +13,7 @@
       "maintenance": false,
       "name": "revolution",
       "published": true,
-      "rpcUrl": "http://revolution1.mcnierney.com:3252",
+      "rpcUrl": "dev.revolutionchain.io",
       "baseTokenAddress": "0x81a2638B82313bDF8A3032C53053e29d656c3Fee"
     },
     {
