@@ -1,7 +1,7 @@
 {
   "networks": [
     {
-      "apiUrl": "https://api-dev.revoscan.io",
+      "apiUrl": "https://api.dev.revoscan.io",
       "verificationApiUrl": "https://contract-verifier.dev.revolutionchain.io",
       "bridgeUrl": "http://dev.revoscan.io:3000/bridge/?network=sepolia",
       "hostnames": [
