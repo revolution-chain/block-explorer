@@ -6,7 +6,7 @@ import { parse as parseConnectionString } from "pg-connection-string";
 
 const buildAppConfig = (zkSyncEnvs: { [key: string]: string }) => ({
   networks: [{
-    apiUrl: "http://66.228.43.83:3020",
+    apiUrl: "https://dev.revolutionchain.io",
     verificationApiUrl: zkSyncEnvs.API_CONTRACT_VERIFICATION_URL || "",
     hostnames: ["localhost", "66.228.43.83"],
     icon: "/images/icons/zksync-arrows.svg",

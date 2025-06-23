@@ -12,7 +12,8 @@ data:
   WORKER_PORT: "3001"
   DATA_FETCHER_PORT: "3040"
   METRICS_PORT: "3005"
-  BLOCKCHAIN_RPC_URL: https://dev.revolutionchain.io
+  # BLOCKCHAIN_RPC_URL: https://dev.revolutionchain.io
+  BLOCKCHAIN_RPC_URL: http://server-v2.dev.svc.cluster.local
   DATA_FETCHER_URL: http://127.0.0.1:3040
   ## This currently doesn't work. The config file comes from image building stage
   network.conf: |-
