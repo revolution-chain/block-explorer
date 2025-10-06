@@ -141,13 +141,13 @@ import LinksPopover from "./LinksPopover.vue";
 
 import LocaleSwitch from "@/components/LocaleSwitch.vue";
 import NetworkSwitch from "@/components/NetworkSwitch.vue";
-import DiscordIcon from "@/components/icons/DiscordIcon.vue";
 import HeroArrows from "@/components/icons/HeroArrows.vue";
+import Revo from "@/components/icons/Revo.vue";
+import Revolution from "@/components/icons/Revolution.vue";
+import TelegramIcon from "@/components/icons/TelegramIcon.vue";
 import TwitterIcon from "@/components/icons/TwitterIcon.vue";
 import ZkSync from "@/components/icons/ZkSync.vue";
 import ZkSyncEra from "@/components/icons/ZkSyncEra.vue";
-import Revo from "@/components/icons/Revo.vue";
-import Revolution from "@/components/icons/Revolution.vue";
 
 import useContext from "@/composables/useContext";
 import useLocalization from "@/composables/useLocalization";
@@ -205,8 +205,8 @@ if (currentNetwork.value.bridgeUrl) {
 const toolsLinks = reactive(links);
 
 const socials = [
-  { url: "https://join.zksync.dev/", component: DiscordIcon },
-  { url: "https://x.com/zksync", component: TwitterIcon },
+  { url: "https://t.me/the_revolution_network/1", component: TelegramIcon },
+  { url: "https://x.com/revochain", component: TwitterIcon },
 ];
 
 const hasContent = computed(() => {
