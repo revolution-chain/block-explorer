@@ -73,7 +73,7 @@ describe("TheHeader:", () => {
       },
     });
     const routerArray = wrapper.findAll(".socials-container > a");
-    expect(routerArray[0].attributes("href")).toBe("https://join.zksync.dev/");
+    expect(routerArray[0].attributes("href")).toBe("https://t.me/the_revolution_network/1");
     expect(routerArray[1].attributes("href")).toBe("https://x.com/zksync");
   });
   it("renders network switch", () => {
