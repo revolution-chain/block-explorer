@@ -6,13 +6,13 @@
       "hostnames": [
         "localhost"
       ],
-      "icon": "/images/icons/zksync-arrows.svg",
-      "l2ChainId": 270,
+      "icon": "/images/icons/revo.svg",
+      "l2ChainId": 73863,
       "l2NetworkName": "Local",
       "maintenance": false,
       "name": "local",
       "published": true,
-      "rpcUrl": "http://localhost:3050",
+      "rpcUrl": "https://libertas.revolutionchain.io",
       "baseTokenAddress": "0x000000000000000000000000000000000000800A"
     }
   ]
