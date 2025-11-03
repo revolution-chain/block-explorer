@@ -1,4 +1,4 @@
-FROM node:18.17.1-alpine AS base-stage
+FROM node:20-alpine AS base-stage
 ENV NODE_ENV=production
 
 WORKDIR /usr/src/app
