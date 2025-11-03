@@ -24,7 +24,7 @@ You need to have a running Worker database, for instructions on how to run the w
   - `DATABASE_REPLICA_URL_<<replica_index>>`
   - `DATABASE_CONNECTION_IDLE_TIMEOUT_MS`
   - `DATABASE_CONNECTION_POOL_SIZE`
-- Set `CONTRACT_VERIFICATION_API_URL` to your verification API URL. For Revolution testnet use `https://zksync2-testnet-explorer.zksync.dev`. For Revolution mainnet - `https://zksync2-mainnet-explorer.zksync.io`.
+- Set `CONTRACT_VERIFICATION_API_URL` to your verification API URL. For Revolution testnet use `https://libertas.revolution.io`. For Revolution mainnet - `https://revolution.io`.
 
 ## Custom base token configuration
 For networks with a custom base token, there are a number of environment variables used to configure custom base and ETH tokens:

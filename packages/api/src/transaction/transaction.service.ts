@@ -8,10 +8,11 @@ import { Transaction } from "./entities/transaction.entity";
 import { AddressTransaction } from "./entities/addressTransaction.entity";
 import { Batch } from "../batch/batch.entity";
 import { CounterService } from "../counter/counter.service";
+import { Logger } from "@nestjs/common";
 
 export interface FilterTransactionsOptions {
   blockNumber?: number;
-  address?: string;
+  // address?: string;
   l1BatchNumber?: number;
   receivedAt?: FindOperator<Date>;
 }
@@ -53,7 +54,12 @@ export class TransactionService {
     filterOptions: FilterTransactionsOptions,
     paginationOptions: IPaginationOptions
   ): Promise<Pagination<Transaction>> {
-    if (filterOptions.address) {
+    const logger = new Logger("transaction");
+    logger.log("filterOptions..................");
+    logger.log(filterOptions);
+    const qbFilters: Record<string, unknown> = { ...(filterOptions as any) };
+    // if (filterOptions.address) {
+    if (qbFilters.address) {
       const queryBuilder = this.addressTransactionRepository.createQueryBuilder("addressTransaction");
       queryBuilder.select("addressTransaction.number");
       queryBuilder.leftJoinAndSelect("addressTransaction.transaction", "transaction");
@@ -62,7 +68,8 @@ export class TransactionService {
       queryBuilder.leftJoin("transaction.batch", "batch");
       queryBuilder.addSelect(["batch.commitTxHash", "batch.executeTxHash", "batch.proveTxHash"]);
       queryBuilder.where({
-        address: filterOptions.address,
+        // address: filterOptions.address,
+        address: qbFilters.address,
         ...(filterOptions.receivedAt && { receivedAt: filterOptions.receivedAt }),
         // can't add filters on transaction here due to typeOrm issue with filters on joined tables
       });
@@ -90,10 +97,20 @@ export class TransactionService {
       queryBuilder.addSelect(["transactionReceipt.gasUsed", "transactionReceipt.contractAddress"]);
       queryBuilder.leftJoin("transaction.batch", "batch");
       queryBuilder.addSelect(["batch.commitTxHash", "batch.executeTxHash", "batch.proveTxHash"]);
-      queryBuilder.where(filterOptions);
+      delete qbFilters["address"]; // ok even if missing
+      if (qbFilters["blockNumber"] === undefined || qbFilters["blockNumber"] === null) {
+        delete qbFilters["blockNumber"];
+      }
+      if (qbFilters["l1BatchNumber"] === undefined || qbFilters["l1BatchNumber"] === null) {
+        delete qbFilters["l1BatchNumber"];
+      }
+      queryBuilder.where(qbFilters);
+      // queryBuilder.where(filterOptions);
       queryBuilder.orderBy("transaction.blockNumber", "DESC");
       queryBuilder.addOrderBy("transaction.receivedAt", "DESC");
       queryBuilder.addOrderBy("transaction.transactionIndex", "DESC");
+      logger.log(queryBuilder.getQuery());
+      logger.log(queryBuilder.getQueryAndParameters());
       return await paginate<Transaction>(queryBuilder, paginationOptions);
     }
   }

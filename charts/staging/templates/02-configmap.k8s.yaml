@@ -14,8 +14,15 @@ data:
   METRICS_PORT: "3005"
   ETH_TOKEN_SYMBOL: REVO
   ETH_TOKEN_NAME: Revolution
-  # BLOCKCHAIN_RPC_URL: https://dev.revolutionchain.io
-  BLOCKCHAIN_RPC_URL: http://server-v2.dev.svc.cluster.local
+  ETH_TOKEN_DECIMALS: 18
+  ETH_TOKEN_L2_ADDRESS: "0x000000000000000000000000000000000000800a"
+  BASE_TOKEN_L1_ADDRESS: "0x8b84f028f6374a73b999bf6199f9241a0b3f927c"
+  BASE_TOKEN_SYMBOL: tREVO
+  BASE_TOKEN_NAME: Revolution
+  BASE_TOKEN_DECIMALS: 18
+
+  # BLOCKCHAIN_RPC_URL: https://libertas.revolutionchain.io
+  BLOCKCHAIN_RPC_URL: http://server-v2.libertas.svc.cluster.local
   DATA_FETCHER_URL: http://127.0.0.1:3040
   ## This currently doesn't work. The config file comes from image building stage
   network.conf: |-
@@ -41,16 +48,16 @@ data:
           "verificationApiUrl": "http://revolution1.mcnierney.com:3070",
           "bridgeUrl": "http://66.228.43.83:3000/bridge/?network=sepolia",
           "hostnames": [
-            "dev.revoscan.io"
+            "libertas.revoscan.io"
           ],
           "icon": "/images/icons/zksync-arrows.svg",
           "l1ExplorerUrl": "https://sepolia.etherscan.io",
-          "l2ChainId": 73682,
+          "l2ChainId": 73683,
           "l2NetworkName": "Revolution Sepolia Testnet",
           "maintenance": false,
           "name": "revolution",
           "published": true,
-          "rpcUrl": "https://dev.revolutionchain.io",
+          "rpcUrl": "https://libertas.revolutionchain.io",
           "baseTokenAddress": "0x8DFFff8A53dd2b2DF1401bB8E0C035e5C924C956"
         },
         {
