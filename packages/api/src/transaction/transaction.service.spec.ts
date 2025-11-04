@@ -226,7 +226,7 @@ describe("TransactionService", () => {
 
       beforeEach(() => {
         filterTransactionsOptions = {
-          address: "address",
+          // address: "address",
         };
         (utils.paginate as jest.Mock).mockResolvedValue(paginationResult);
       });

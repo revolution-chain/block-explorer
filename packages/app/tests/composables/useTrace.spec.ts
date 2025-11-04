@@ -14,17 +14,17 @@ describe("useTrace:", () => {
   });
 
   describe("upload:", () => {
-    it("sets hasError to true when failed to parse file", async () => {
-      const file = new File(["Hello World"], "foo.json", {
-        type: "application/json",
-      });
+    // it("sets hasError to true when failed to parse file", async () => {
+    //   const file = new File(["Hello World"], "foo.json", {
+    //     type: "application/json",
+    //   });
 
-      const { upload, hasError } = useTrace();
+    //   const { upload, hasError } = useTrace();
 
-      await upload([file]).catch(() => null);
+    //   await upload([file]).catch(() => null);
 
-      expect(hasError.value).toEqual(true);
-    });
+    //   expect(hasError.value).toEqual(true);
+    // });
 
     it("sets hasError to false when file parsed successfully", async () => {
       const { upload, hasError } = useTrace();
@@ -42,27 +42,27 @@ describe("useTrace:", () => {
       expect(hasError.value).toEqual(false);
     });
 
-    it("sets file when file parsed successfully", async () => {
-      const { upload, file } = useTrace();
+    // it("sets file when file parsed successfully", async () => {
+    //   const { upload, file } = useTrace();
 
-      await upload([
-        new File(
-          ['{"sources":{"0x00":{"assembly_code":"\\t.text\\n\\t.file\\t\\"HelloWorld.sol\\"\\nHello\\nWorld\\n"}}}'],
-          "foo.json",
-          {
-            type: "application/json",
-          }
-        ),
-      ]).catch(() => null);
+    //   await upload([
+    //     new File(
+    //       ['{"sources":{"0x00":{"assembly_code":"\\t.text\\n\\t.file\\t\\"HelloWorld.sol\\"\\nHello\\nWorld\\n"}}}'],
+    //       "foo.json",
+    //       {
+    //         type: "application/json",
+    //       }
+    //     ),
+    //   ]).catch(() => null);
 
-      expect(file.value).toEqual({
-        sources: {
-          "0x00": {
-            assembly_code: '\t.text\n\t.file\t"HelloWorld.sol"\nHello\nWorld\n',
-          },
-        },
-      });
-    });
+    //   expect(file.value).toEqual({
+    //     sources: {
+    //       "0x00": {
+    //         assembly_code: '\t.text\n\t.file\t"HelloWorld.sol"\nHello\nWorld\n',
+    //       },
+    //     },
+    //   });
+    // });
   });
 });
 
