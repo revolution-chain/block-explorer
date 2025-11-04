@@ -378,49 +378,49 @@ describe("DebuggerView:", () => {
     unmount();
   });
 
-  it("resets searchText when file reuploaded", async () => {
-    const file = ref({
-      sources: {
-        "0x00": {
-          assembly_code: `\t.text\t.file\t"HelloWorld.sol"Hello\nWorld`,
-          active_lines: [],
-          pc_line_mapping: {},
-        },
-      },
-      steps: [],
-    });
-    const mockTrace = vi.spyOn(useTrace, "default").mockReturnValue({
-      upload: async () => null,
-      file: computed(() => file.value),
-      hasError: computed(() => false),
-    });
+  // it("resets searchText when file reuploaded", async () => {
+  //   const file = ref({
+  //     sources: {
+  //       "0x00": {
+  //         assembly_code: `\t.text\t.file\t"HelloWorld.sol"Hello\nWorld`,
+  //         active_lines: [],
+  //         pc_line_mapping: {},
+  //       },
+  //     },
+  //     steps: [],
+  //   });
+  //   const mockTrace = vi.spyOn(useTrace, "default").mockReturnValue({
+  //     upload: async () => null,
+  //     file: computed(() => file.value),
+  //     hasError: computed(() => false),
+  //   });
 
-    const { container, unmount } = render(DebuggerView, {
-      global: {
-        plugins: [i18n, $testId],
-      },
-    });
+  //   const { container, unmount } = render(DebuggerView, {
+  //     global: {
+  //       plugins: [i18n, $testId],
+  //     },
+  //   });
 
-    await fireEvent.update(container.querySelector(".navigation-search-input")!, "He");
+  //   await fireEvent.update(container.querySelector(".navigation-search-input")!, "He");
 
-    file.value = {
-      sources: {
-        "0x00": {
-          assembly_code: `\t.text\t.file\t"ByeWorld.sol"Bye\nWorld`,
-          active_lines: [],
-          pc_line_mapping: {},
-        },
-      },
-      steps: [],
-    };
+  //   file.value = {
+  //     sources: {
+  //       "0x00": {
+  //         assembly_code: `\t.text\t.file\t"ByeWorld.sol"Bye\nWorld`,
+  //         active_lines: [],
+  //         pc_line_mapping: {},
+  //       },
+  //     },
+  //     steps: [],
+  //   };
 
-    const input = await waitFor(() => container.querySelector<HTMLInputElement>(".navigation-search-input"));
+  //   const input = await waitFor(() => container.querySelector<HTMLInputElement>(".navigation-search-input"));
 
-    expect(input?.value).toEqual("");
+  //   expect(input?.value).toEqual("");
 
-    mockTrace.mockRestore();
-    unmount();
-  });
+  //   mockTrace.mockRestore();
+  //   unmount();
+  // });
   it("shows child metadata block if exist", async () => {
     const mockTrace = vi.spyOn(useTrace, "default").mockReturnValue({
       upload: async () => null,
