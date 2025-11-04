@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
 # Copy configuration and dependency files
-COPY --chown=node:node .yarnrc ./
+# COPY --chown=node:node .yarnrc ./
 COPY --chown=node:node lerna.json ./
 COPY --chown=node:node package.json yarn.lock ./
 COPY --chown=node:node ./packages/app/package.json ./packages/app/
@@ -15,14 +15,14 @@ RUN yarn install --production --frozen-lockfile && yarn cache clean
 
 # Copy app source code
 COPY --chown=node:node ./packages/app/. ./packages/app
-RUN rm -f .yarnrc
+# RUN rm -f .yarnrc
 
 FROM base-stage AS development-stage
 ENV NODE_ENV=development
-COPY --chown=node:node .yarnrc ./
+# COPY --chown=node:node .yarnrc ./
 RUN yarn install --frozen-lockfile
 RUN yarn cache clean
-RUN rm -f .yarnrc
+# RUN rm -f .yarnrc
 
 FROM development-stage AS build-stage
 RUN yarn build
