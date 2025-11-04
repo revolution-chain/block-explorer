@@ -226,7 +226,6 @@ describe("TransactionService", () => {
 
       beforeEach(() => {
         filterTransactionsOptions = {
-          // @ts-ignore
           address: "address",
         };
         (utils.paginate as jest.Mock).mockResolvedValue(paginationResult);

@@ -12,7 +12,7 @@ import { Logger } from "@nestjs/common";
 
 export interface FilterTransactionsOptions {
   blockNumber?: number;
-  // address?: string;
+  address?: string;
   l1BatchNumber?: number;
   receivedAt?: FindOperator<Date>;
 }
