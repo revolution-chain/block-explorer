@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 
 RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
-COPY --chown=node:node .yarnrc.yml ./
+# COPY --chown=node:node .yarnrc.yml ./
 COPY --chown=node:node lerna.json ./
 COPY --chown=node:node package.json yarn.lock ./
 COPY --chown=node:node ./packages/api/package.json ./packages/api/
@@ -17,7 +17,7 @@ COPY --chown=node:node ./packages/api/. ./packages/api
 
 FROM base-stage AS development-stage
 ENV NODE_ENV=development
-COPY --chown=node:node .yarnrc.yml ./
+# COPY --chown=node:node .yarnrc.yml ./
 RUN yarn install --frozen-lockfile
 RUN yarn cache clean
 
