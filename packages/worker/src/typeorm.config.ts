@@ -16,8 +16,10 @@ if (!dbUrl) {
 export const typeOrmModuleOptions: DataSourceOptions = {
   type: "postgres",
   url: dbUrl,
-  poolSize: parseInt(process.env.DATABASE_CONNECTION_POOL_SIZE, 10) || 100,
+  poolSize: parseInt(process.env.DATABASE_CONNECTION_POOL_SIZE, 10) || 20,
   extra: {
+    max: parseInt(process.env.DATABASE_CONNECTION_POOL_SIZE || "20", 10),
+    min: 2,
     idleTimeoutMillis: parseInt(process.env.DATABASE_CONNECTION_IDLE_TIMEOUT_MS, 10) || 12000,
   },
   applicationName: "block-explorer-worker",
