@@ -35,6 +35,12 @@ COPY --chown=node:node --from=build-stage /usr/src/app/packages/app/dist ./packa
 # Install http-server globally
 RUN yarn global add http-server
 
+# DEBUG: Verify http-server is in PATH
+RUN echo "=== Checking http-server ===" && \
+    which http-server && \
+    http-server --version && \
+    echo "=== OK ===" || echo "http-server NOT FOUND"
+
 ARG NODE_ENV=production
 ENV NODE_ENV=$NODE_ENV
 
@@ -44,4 +50,4 @@ ENV PORT=$PORT
 USER node
 WORKDIR /usr/src/app/packages/app/dist
 
-CMD ["http-server", "-p", "$PORT", "-c-1", "--proxy", "http://127.0.0.1:$PORT/index.html?"]
+CMD ["http-server", "-p", "3010", "-c-1"]
