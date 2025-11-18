@@ -61,12 +61,28 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "7200"
     nginx.ingress.kubernetes.io/enable-cors: "false"
     nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    # nginx.ingress.kubernetes.io/use-regex: "true"
+    # nginx.ingress.kubernetes.io/rewrite-target: /index.html
     #nginx.ingress.kubernetes.io/configuration-snippet: |
     #  more_set_headers "Content-Security-Policy: default-src 'none'; script-src 'self' 'unsafe-inline'; connect-src * wss://relay.walletconnect.com/* wss://relay.walletconnect.org/*; frame-ancestors *;";
 
   hosts:
     - host: libertas.revoscan.io
-      paths: ["/"]
+      paths:
+        # - path: /^\/config\.js$/
+        #   pathType: ImplementationSpecific
+        #   rewriteTarget: true
+        # - path: /^\/env\.js$/
+        #   pathType: ImplementationSpecific
+        #   rewriteTarget: true
+        # - path: /assets
+        #   pathType: Prefix
+        #   rewriteTarget: true
+        # - path: /static
+        #   pathType: Prefix
+        #   rewriteTarget: true
+        - path: /
+          pathType: ImplementationSpecific
   tls:
     - secretName: revoscan-libertas-tls
       hosts:
