@@ -25,22 +25,90 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ template "serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }} 
+      {{- end }}
       containers:
+        - name: "{{ .Chart.Name }}-api"
+          securityContext:
+            {{- with .Values.securityContext }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          image: "{{ .Values.image.repository }}-api:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports: 
+            - name: api-http
+              containerPort: 3020
+              protocol: TCP
+            - name: api-metrics
+              containerPort: 3005
+              protocol: TCP
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: block-explorer-config
+                  key: API_PORT
+            - name: METRICS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: block-explorer-config
+                  key: METRICS_PORT
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: block-explorer
+                  key: DATABASE_URL
+          envFrom:
+            - configMapRef:
+                name: block-explorer-config
+          volumeMounts:
+            - name: config
+              mountPath: /usr/src/app/packages/api/.env  # Path inside pod
+              subPath: api.env 
         - name: "{{ .Chart.Name }}-app"
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- with .Values.securityContext }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           image: "{{ .Values.image.repository }}-app:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports: 
             - name: http
               containerPort: 3010
               protocol: TCP
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: block-explorer-config
+                  key: APP_PORT
+            - name: VITE_APP_ENVIRONMENT
+              value: dev
           volumeMounts:
             - name: config
-              subPath: network.conf
+              subPath: dev.config.json
               mountPath: /usr/src/app/packages/app/src/configs/dev.config.json
+        - name: "{{ .Chart.Name }}-data-fetcher"
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}-data-fetcher:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports: 
+            - name: http
+              containerPort: 3040
+              protocol: TCP
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: block-explorer-config
+                  key: DATA_FETCHER_PORT
+          volumeMounts:
+            - name: config
+              mountPath: /usr/src/app/packages/data-fetcher/.env
+              subPath: data-fetcher.env
         - name: "{{ .Chart.Name }}-worker"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -51,6 +119,11 @@ spec:
               containerPort: 3001
               protocol: TCP
           env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: block-explorer
+                  key: DATABASE_URL
             - name: PORT
               valueFrom:
                 configMapKeyRef:
@@ -81,65 +154,17 @@ spec:
                 secretKeyRef:
                   name: block-explorer
                   key: DATABASE_NAME
-          envFrom:
-            - configMapRef:
-                name: block-explorer-config
-        - name: "{{ .Chart.Name }}-data-fetcher"
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}-data-fetcher:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports: 
-            - name: http
-              containerPort: 3040
-              protocol: TCP
-          env:
-            - name: PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: block-explorer-config
-                  key: DATA_FETCHER_PORT
-          envFrom:
-            - configMapRef:
-                name: block-explorer-config
-        - name: "{{ .Chart.Name }}-api"
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}-api:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports: 
-            - name: api-http
-              containerPort: 3020
-              protocol: TCP
-            - name: api-metrics
-              containerPort: 3005
-              protocol: TCP
-          env:
-            - name: PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: block-explorer-config
-                  key: API_PORT
-            - name: METRICS_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: block-explorer-config
-                  key: METRICS_PORT
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: block-explorer
-                  key: DATABASE_URL
-          envFrom:
-            - configMapRef:
-                name: block-explorer-config
+          volumeMounts:
+            - name: config
+              mountPath: /usr/src/app/packages/worker/.env
+              subPath: worker.env
 {{- if hasKey .Values "livenessProbe" }}
           livenessProbe:
-{{ toYaml .Values.livenessProbe | trim | indent 12 }}
+{{ toYaml .Values.livenessProbe | nindent 12 }}
 {{- end }}
 {{- if hasKey .Values "readinessProbe" }}
           readinessProbe:
-{{ toYaml .Values.readinessProbe | trim | indent 12 }}
+{{ toYaml .Values.readinessProbe | nindent 12 }}
 {{- end }}
 {{- if hasKey .Values "resources" }}
           resources:
