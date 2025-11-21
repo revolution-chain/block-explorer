@@ -1,53 +1,55 @@
+# ==============================================================
+# 1. Base – production deps only
+# ==============================================================
 FROM node:20-alpine AS base-stage
 ENV NODE_ENV=production
 
 WORKDIR /usr/src/app
-RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
-# Copy configuration and dependency files
-# COPY --chown=node:node .yarnrc ./
-COPY --chown=node:node lerna.json ./
-COPY --chown=node:node package.json yarn.lock ./
-COPY --chown=node:node ./packages/app/package.json ./packages/app/
+# Some native packages need build tools
+RUN apk add --no-cache python3 make g++ && rm -rf /var/cache/apk/*
 
-# Install production dependencies only
+# Root files
+COPY lerna.json package.json yarn.lock ./
+
+# Copy only package.json files so Yarn can hoist correctly
+COPY packages/app/package.json ./packages/app/
+
+# Install only production dependencies
 RUN yarn install --production --frozen-lockfile && yarn cache clean
 
-# Copy app source code
-COPY --chown=node:node ./packages/app/. ./packages/app
-# RUN rm -f .yarnrc
+# Now copy the actual source code (folder already exists → no error)
+COPY ./packages/app/. ./packages/app
 
+
+# ==============================================================
+# 2. Development – full deps for build
+# ==============================================================
 FROM base-stage AS development-stage
 ENV NODE_ENV=development
-# COPY --chown=node:node .yarnrc ./
-RUN yarn install --frozen-lockfile
-RUN yarn cache clean
-# RUN rm -f .yarnrc
+RUN yarn install --frozen-lockfile && yarn cache clean
 
+
+# ==============================================================
+# 3. Build the Vue app
+# ==============================================================
 FROM development-stage AS build-stage
+WORKDIR /usr/src/app/packages/app
 RUN yarn build
+# → creates /usr/src/app/packages/app/dist
 
-FROM base-stage AS production-stage
 
-# Copy build artifacts from build stage
-COPY --chown=node:node --from=build-stage /usr/src/app/packages/app/dist ./packages/app/dist
+# ==============================================================
+# 4. Final image – nginx serving static files
+# ==============================================================
+FROM nginx:stable-alpine AS production-stage
 
-# Install http-server globally
-RUN yarn global add http-server
+# Copy built assets
+COPY --from=build-stage /usr/src/app/packages/app/dist /usr/share/nginx/html
 
-# DEBUG: Verify http-server is in PATH
-RUN echo "=== Checking http-server ===" && \
-    which http-server && \
-    http-server --version && \
-    echo "=== OK ===" || echo "http-server NOT FOUND"
+# SPA-friendly nginx config
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-ARG NODE_ENV=production
-ENV NODE_ENV=$NODE_ENV
+EXPOSE 80 3010
 
-ARG PORT=3010
-ENV PORT=$PORT
-
-USER node
-WORKDIR /usr/src/app/packages/app/dist
-
-CMD ["http-server", "-p", "3010", "-c-1"]
+CMD ["nginx", "-g", "daemon off;"]
