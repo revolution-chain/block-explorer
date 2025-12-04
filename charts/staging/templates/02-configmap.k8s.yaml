@@ -87,7 +87,7 @@ data:
     DISABLE_BFF_API_SCHEMA_DOCS=false
     DISABLE_EXTERNAL_API=false
     DATABASE_STATEMENT_TIMEOUT_MS=90000
-    CONTRACT_VERIFICATION_API_URL=https://contract-verifier.libertas.revolutionchain.io
+    CONTRACT_VERIFICATION_API_URL=https://contract-verifier-api.libertas.revolutionchain.io
     NETWORK_NAME=testnet-sepolia
 
     BASE_TOKEN_SYMBOL=REVO
@@ -126,7 +126,7 @@ data:
       "networks": [
         {
           "apiUrl": "https://api.libertas.revoscan.io",
-          "verificationApiUrl": "https://contract-verifier.libertas.revolutionchain.io",
+          "verificationApiUrl": "https://contract-verifier-api.libertas.revolutionchain.io",
           "bridgeUrl": "http://libertas.revoscan.io:3000/bridge/?network=sepolia",
           "hostnames": [
           ],
@@ -141,5 +141,24 @@ data:
           "baseTokenAddress": "0x2c81f8b274d6096bbd99a6e133e2dec3731af114"
         }
       ]
+    }
+
+  nginx.conf: |-
+    server {
+        listen 80;
+        listen 3010;
+        root /usr/share/nginx/html;
+        index index.html;
+
+        # This one line fixes everything
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+
+        # Cache assets
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff2?|ttf|eot|wasm)$ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
     }
 
