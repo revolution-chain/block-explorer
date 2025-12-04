@@ -66,7 +66,21 @@ ingress:
 
   hosts:
     - host: dev.revoscan.io
-      paths: ["/"]
+      paths:
+        # - path: /^\/config\.js$/
+        #   pathType: ImplementationSpecific
+        #   rewriteTarget: true
+        # - path: /^\/env\.js$/
+        #   pathType: ImplementationSpecific
+        #   rewriteTarget: true
+        # - path: /assets
+        #   pathType: Prefix
+        #   rewriteTarget: true
+        # - path: /static
+        #   pathType: Prefix
+        #   rewriteTarget: true
+        - path: /
+          pathType: ImplementationSpecific
   tls:
     - secretName: revoscan-dev-tls
       hosts:

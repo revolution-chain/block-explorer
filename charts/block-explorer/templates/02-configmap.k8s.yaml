@@ -6,87 +6,139 @@ metadata:
   labels:
     app: block-explorer
 data:
+  VITE_APP_ENVIRONMENT: dev
   LOG_LEVEL: verbose
   BATCHES_PROCESSING_POLLING_INTERVAL: "1000"
   API_PORT: "3020"
+  APP_PORT: "3010"
   WORKER_PORT: "3001"
   DATA_FETCHER_PORT: "3040"
   METRICS_PORT: "3005"
   ETH_TOKEN_SYMBOL: REVO
   ETH_TOKEN_NAME: Revolution
-  # BLOCKCHAIN_RPC_URL: https://dev.revolutionchain.io
+  ETH_TOKEN_DECIMALS: "18"
+  ETH_TOKEN_L2_ADDRESS: "0x000000000000000000000000000000000000800a"
+  BASE_TOKEN_L1_ADDRESS: "0x2c81f8b274d6096bbd99a6e133e2dec3731af114"
+  BASE_TOKEN_SYMBOL: tREVO
+  BASE_TOKEN_NAME: Revolution
+  BASE_TOKEN_DECIMALS: "18"
+
   BLOCKCHAIN_RPC_URL: http://server-v2.dev.svc.cluster.local
   DATA_FETCHER_URL: http://127.0.0.1:3040
+  worker.env: |-
+    PORT=3001
+    DATABASE_HOST=172.232.2.9:31079
+    DATABASE_USER=dev
+    DATABASE_PASSWORD=pass
+    DATABASE_NAME=block-explorer-dev
+    DATABASE_CONNECTION_IDLE_TIMEOUT_MS=12000
+    DATABASE_CONNECTION_POOL_SIZE=10
+    BLOCKCHAIN_RPC_URL=https://dev.revolutionchain.io/
+    DATA_FETCHER_URL=http://127.0.0.1:3040
+    DATA_FETCHER_REQUEST_TIMEOUT=150000
+    WAIT_FOR_BLOCKS_INTERVAL=1000
+    BLOCKS_PROCESSING_BATCH_SIZE=10
+    NUMBER_OF_BLOCKS_PER_DB_TRANSACTION=10
+    BATCHES_PROCESSING_POLLING_INTERVAL=60000
+    DELETE_BALANCES_INTERVAL=300000
+    RPC_CALLS_DEFAULT_RETRY_TIMEOUT=30000
+    RPC_CALLS_QUICK_RETRY_TIMEOUT=500
+    RPC_CALLS_CONNECTION_TIMEOUT=20000
+    RPC_CALLS_CONNECTION_QUICK_TIMEOUT=10000
+    RPC_BATCH_MAX_COUNT=10
+    RPC_BATCH_MAX_SIZE_BYTES=1048576
+    RPC_BATCH_STALL_TIME_MS=0
+    COLLECT_DB_CONNECTION_POOL_METRICS_INTERVAL=10000
+    COLLECT_BLOCKS_TO_PROCESS_METRIC_INTERVAL=10000
+    RPC_HEALTH_CHECK_TIMEOUT_MS=20000
+    DB_HEALTH_CHECK_TIMEOUT_MS=20000
+    DISABLE_MISSING_BLOCKS_METRIC=false
+    CHECK_MISSING_BLOCKS_METRIC_INTERVAL=86400000
+    DISABLE_BATCHES_PROCESSING=false
+    DISABLE_COUNTERS_PROCESSING=false
+    DISABLE_OLD_BALANCES_CLEANER=false
+    DISABLE_BLOCKS_REVERT=false
+    ENABLE_TOKEN_OFFCHAIN_DATA_SAVER=false
+    UPDATE_TOKEN_OFFCHAIN_DATA_INTERVAL=86400000
+    SELECTED_TOKEN_OFFCHAIN_DATA_PROVIDER=coingecko
+    BASE_TOKEN_SYMBOL=REVO
+    BASE_TOKEN_DECIMALS=18
+    BASE_TOKEN_L1_ADDRESS=0x8b84f028f6374a73b999bf6199f9241a0b3f927c
+    BASE_TOKEN_ICON_URL=https://assets.coingecko.com/coins/images/279/large/ethereum.png?1698873266
+    BASE_TOKEN_NAME=Revo
+    FROM_BLOCK=0
+    TO_BLOCK=
+    COINGECKO_IS_PRO_PLAN=false
+    COINGECKO_API_KEY=
+
+  api.env: |-
+    GRACEFUL_SHUTDOWN_TIMEOUT_MS=0
+    DATABASE_REPLICA_URL_0=
+    DATABASE_CONNECTION_POOL_SIZE=10
+    DATABASE_CONNECTION_IDLE_TIMEOUT_MS=12000
+    METRICS_PORT=3005
+    COLLECT_DB_CONNECTION_POOL_METRICS_INTERVAL=10000
+    PORT=3020
+    LOG_LEVEL=debug
+    LIMITED_PAGINATION_MAX_ITEMS=10000
+    API_LIMITED_PAGINATION_MAX_ITEMS=1000
+    DISABLE_API_SCHEMA_DOCS=false
+    DISABLE_BFF_API_SCHEMA_DOCS=false
+    DISABLE_EXTERNAL_API=false
+    DATABASE_STATEMENT_TIMEOUT_MS=90000
+    CONTRACT_VERIFICATION_API_URL=https://contract-verifier.dev.revolutionchain.io
+    NETWORK_NAME=testnet-sepolia
+
+    BASE_TOKEN_SYMBOL=REVO
+    BASE_TOKEN_DECIMALS=18
+    BASE_TOKEN_L1_ADDRESS=0x8b84f028f6374a73b999bf6199f9241a0b3f927c
+    BASE_TOKEN_ICON_URL=https://assets.coingecko.com/coins/images/279/large/ethereum.png?1698873266
+    BASE_TOKEN_NAME=Revo
+    BASE_TOKEN_LIQUIDITY=220000000000
+    BASE_TOKEN_USDPRICE=1800
+
+    ETH_TOKEN_SYMBOL=REVO
+    ETH_TOKEN_DECIMALS=18
+    ETH_TOKEN_L2_ADDRESS=0x000000000000000000000000000000000000800A
+    ETH_TOKEN_ICON_URL=https://assets.coingecko.com/coins/images/279/large/ethereum.png?1698873266
+    ETH_TOKEN_NAME=REVO
+    ETH_TOKEN_LIQUIDITY=220000000000
+    ETH_TOKEN_USDPRICE=1800
+
+  data-fetcher.env: |-
+    GRACEFUL_SHUTDOWN_TIMEOUT_MS: 0
+    BLOCKCHAIN_RPC_URL: https://dev.revolutionchain.io/
+    RPC_CALLS_DEFAULT_RETRY_TIMEOUT: 30000
+    RPC_CALLS_QUICK_RETRY_TIMEOUT: 5000
+    RPC_CALLS_RETRIES_MAX_TOTAL_TIMEOUT: 120000
+    RPC_CALLS_CONNECTION_TIMEOUT: 60000
+    RPC_CALLS_CONNECTION_QUICK_TIMEOUT: 10000
+    RPC_BATCH_MAX_COUNT: 10
+    RPC_BATCH_MAX_SIZE_BYTES: 1048576
+    RPC_BATCH_STALL_TIME_MS: 0
+    MAX_BLOCKS_BATCH_SIZE: 20
+    RPC_HEALTH_CHECK_TIMEOUT_MS: 20_000
+
   ## This currently doesn't work. The config file comes from image building stage
-  network.conf: |-
+  dev.config.json: |-
     {
       "networks": [
         {
-          "apiUrl": "http://localhost:3020",
-          "bridgeUrl": "http://localhost:3000/bridge",
+          "apiUrl": "https://api.dev.revoscan.io",
+          "verificationApiUrl": "https://contract-verifier.dev.revolutionchain.io",
+          "bridgeUrl": "http://dev.revoscan.io:3000/bridge/?network=sepolia",
           "hostnames": [
-            "localhost"
           ],
-          "icon": "/images/icons/zksync-arrows.svg",
-          "l2ChainId": 270,
-          "l2NetworkName": "Local",
-          "maintenance": false,
-          "name": "local",
-          "published": true,
-          "rpcUrl": "http://localhost:3050",
-          "baseTokenAddress": "0x000000000000000000000000000000000000800A"
-        },
-        {
-          "apiUrl": "http://127.0.0.1:3020",
-          "verificationApiUrl": "http://revolution1.mcnierney.com:3070",
-          "bridgeUrl": "http://66.228.43.83:3000/bridge/?network=sepolia",
-          "hostnames": [
-            "dev.revoscan.io"
-          ],
-          "icon": "/images/icons/zksync-arrows.svg",
+          "icon": "/images/icons/revo.svg",
           "l1ExplorerUrl": "https://sepolia.etherscan.io",
-          "l2ChainId": 73682,
-          "l2NetworkName": "Revolution Sepolia Testnet",
+          "l2ChainId": 73681,
+          "l2NetworkName": "dev",
           "maintenance": false,
           "name": "revolution",
           "published": true,
           "rpcUrl": "https://dev.revolutionchain.io",
-          "baseTokenAddress": "0x8DFFff8A53dd2b2DF1401bB8E0C035e5C924C956"
-        },
-        {
-          "apiUrl": "https://block-explorer-api.stage.zksync.dev",
-          "verificationApiUrl": "https://z2-dev-api-explorer.zksync.dev",
-          "hostnames": [
-            "https://goerli-beta.staging-scan-v2.zksync.dev"
-          ],
-          "icon": "/images/icons/zksync-arrows.svg",
-          "l1ExplorerUrl": "https://goerli.etherscan.io",
-          "l2ChainId": 270,
-          "l2NetworkName": "Goerli (Stage2)",
-          "maintenance": false,
-          "name": "goerli-beta",
-          "published": true,
-          "rpcUrl": "https://z2-dev-api.zksync.dev",
-          "baseTokenAddress": "0x000000000000000000000000000000000000800a"
-        },
-        {
-          "apiUrl": "https://block-explorer-api.mainnet.zksync.io",
-          "verificationApiUrl": "https://zksync2-mainnet-explorer.zksync.io",
-          "bridgeUrl": "https://portal.zksync.io/bridge/?network=mainnet",
-          "hostnames": [
-            "https://staging-scan-v2.zksync.dev"
-          ],
-          "icon": "/images/icons/zksync-arrows.svg",
-          "l1ExplorerUrl": "https://etherscan.io",
-          "l2ChainId": 324,
-          "l2NetworkName": "ZkSync Era Mainnet",
-          "maintenance": false,
-          "name": "mainnet",
-          "published": true,
-          "rpcUrl": "https://mainnet.era.zksync.io",
-          "tokensMinLiquidity": 0,
-          "zkTokenAddress": "0x5A7d6b2F92C77FAD6CCaBd7EE0624E64907Eaf3E",
-          "baseTokenAddress": "0x000000000000000000000000000000000000800a"
+          "baseTokenAddress": "0x2c81f8b274d6096bbd99a6e133e2dec3731af114"
         }
       ]
     }
+
